@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Library.Models;
+using Messenger.Entities;
 using Messenger.DBContext;
 using Messenger.IdentityAuth;
 using Messenger.Models;

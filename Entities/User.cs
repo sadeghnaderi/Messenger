@@ -1,9 +1,9 @@
 ﻿
-using Messenger.Models;
+using Messenger.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Library.Models
+namespace Messenger.Entities
 {
     public class User
     {

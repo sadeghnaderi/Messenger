@@ -1,8 +1,8 @@
-﻿using Library.Models;
+﻿using Messenger.Entities;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Messenger.Models
+namespace Messenger.Entities
 {
     public class GroupUsers
     {

@@ -1,4 +1,4 @@
-﻿using Library.Models;
+﻿using Messenger.Entities;
 using Messenger.IdentityAuth;
 using Messenger.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

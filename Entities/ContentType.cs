@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Messenger.Models
+namespace Messenger.Entities
 {
-    public class ReceiverType
+    public class ContentType
     {
         [Required]
         public int Id { get; set; }
