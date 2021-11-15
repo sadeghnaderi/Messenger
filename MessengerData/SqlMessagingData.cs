@@ -21,32 +21,86 @@ namespace Messenger.MessengerData
         }
         public string AddChannel(string Name, string AdminId)
         {
-            throw new NotImplementedException();
+            var Channel = new Group
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = Name,
+                AdminId = AdminId,
+                IsChannel = true
+            };
+
+            _MessengerDbContext.Group.Add(Channel);
+            _MessengerDbContext.SaveChanges();
+
+            return "Channel Added Successfully";
         }
 
         public string AddGroup(string GroupName, string AdminId)
         {
-            throw new NotImplementedException();
+            var Group = new Group
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = GroupName,
+                AdminId = AdminId,
+                IsChannel = false
+            };
+
+            _MessengerDbContext.Group.Add(Group);
+            _MessengerDbContext.SaveChanges();
+
+            return "Group Added Successfully";
         }
 
-        public string AddUserToGroup(List<string> UserIds, string GroupId)
+        public string AddUsersToGroup(List<string> UserIds, string GroupId)
         {
-            throw new NotImplementedException();
+            foreach (string UserId in UserIds)
+            {
+                var GroupUser = new GroupUsers
+                {
+                    GroupId = GroupId,
+                    UserId = UserId
+                };
+
+                _MessengerDbContext.GroupUsers.Add(GroupUser);
+            }
+            
+            _MessengerDbContext.SaveChanges();
+
+            return "Users Added To Group Successfully";
         }
 
         public string BookmarkMessage(int MessageId, string UserId)
         {
-            throw new NotImplementedException();
+            var Bookmark = new Bookmark
+            {
+                UserId = UserId,
+                MessageId = MessageId
+            };
+
+            _MessengerDbContext.Bookmark.Add(Bookmark);
+            _MessengerDbContext.SaveChanges();
+
+            return "Bookmark Added Successfully";
         }
 
         public string DeleteBookmark(int BookmarkId)
         {
-            throw new NotImplementedException();
+            var DbBookmark = _MessengerDbContext.Bookmark.Where(m => m.Id == BookmarkId).SingleOrDefault();
+
+            _MessengerDbContext.Remove(DbBookmark);
+            _MessengerDbContext.SaveChanges();
+
+            return "Bookmark Deleted Successfully";
         }
 
         public string DeleteConversation(string UserId, string ReceiverId)
         {
-            throw new NotImplementedException();
+            var DbConversation = _MessengerDbContext.Conversation.Where(m => m.SenderId == UserId && m.ReceiverId == ReceiverId).SingleOrDefault();
+
+            DbConversation.Active = false;
+            _MessengerDbContext.SaveChanges();
+
+            return "Conversation Deleted Successfully";
         }
 
         public string DeleteMessage(int MessageId)

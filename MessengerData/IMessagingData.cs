@@ -33,7 +33,7 @@ namespace Messenger.MessengerData
 
         string AddGroup(string GroupName, string AdminId);
 
-        string AddUserToGroup(List<string> UserIds, string GroupId);
+        string AddUsersToGroup(List<string> UserIds, string GroupId);
 
         string AddChannel(string Name, string AdminId);
 

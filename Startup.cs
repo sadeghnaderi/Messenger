@@ -1,6 +1,7 @@
 using System.Text;
 using Messenger.DBContext;
 using Messenger.IdentityAuth;
+using Messenger.MessengerData;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,9 @@ namespace Messenger
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<IMessagingData, SqlMessagingData>();
+
 
             services.AddDbContext<MessengerDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 

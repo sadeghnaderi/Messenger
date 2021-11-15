@@ -1,5 +1,4 @@
-﻿using Messenger.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,20 +7,17 @@ using System.Threading.Tasks;
 
 namespace Messenger.Entities
 {
-    public class Group
+    public class Conversation
     {
         [Required]
-        public string Id { get; set; }
-
-        public string Name { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("User")]
-        public string AdminId { get; set; }
+        public string SenderId { get; set; }
         public virtual User User { get; set; }
 
-        [Required]
-        public bool IsChannel { get; set; }
+        public string ReceiverId { get; set; }
 
-        public int PinMessageId { get; set; }
+        public bool Active { get; set; }
     }
 }

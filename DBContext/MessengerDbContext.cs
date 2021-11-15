@@ -19,6 +19,7 @@ namespace Messenger.DBContext
 
         public DbSet<User> User { get; set; }
         public DbSet<UserType> UserType { get; set; }
+        public DbSet<Conversation> Conversation { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Content> Contents { get; set; }
         public DbSet<ContentType> ContentType { get; set; }
