@@ -9590,11 +9590,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Web Designing\\Messenger_Pascal\\Messenger_Pascal\\Messenger_Pascal.csproj",
-      "projectName": "Messenger_Pascal",
-      "projectPath": "D:\\Web Designing\\Messenger_Pascal\\Messenger_Pascal\\Messenger_Pascal.csproj",
+      "projectUniqueName": "D:\\Web Designing\\Messenger\\Messenger.csproj",
+      "projectName": "Messenger",
+      "projectPath": "D:\\Web Designing\\Messenger\\Messenger.csproj",
       "packagesPath": "C:\\Users\\TnrCo New\\.nuget\\packages\\",
-      "outputPath": "D:\\Web Designing\\Messenger_Pascal\\Messenger_Pascal\\obj\\",
+      "outputPath": "D:\\Web Designing\\Messenger\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
