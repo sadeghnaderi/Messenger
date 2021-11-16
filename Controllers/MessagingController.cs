@@ -67,5 +67,53 @@ namespace Messenger.Controllers
         {
             return Ok(_MessagingData.DeleteConversation(UserId,ReceiverId));
         }
+
+        [HttpPost]
+        [Route("api/DeleteMessage")]
+        [Authorize(Roles = "User")]
+        public IActionResult DeleteMessage(int MessageId)
+        {
+            return Ok(_MessagingData.DeleteMessage(MessageId));
+        }
+
+        [HttpPost]
+        [Route("api/EditMessage")]
+        [Authorize(Roles = "User")]
+        public IActionResult EditMessage(int MessageId, string NewContent)
+        {
+            return Ok(_MessagingData.EditMessage(MessageId,NewContent));
+        }
+
+        [HttpPost]
+        [Route("api/SendMessage")]
+        [Authorize(Roles = "User")]
+        public IActionResult SendMessage(string UserId, string ReceiverId, int ReceiverTypeId, string Content, int ContentTypeId)
+        {
+            return Ok(_MessagingData.SendMessage(UserId,ReceiverId,ReceiverTypeId,Content,ContentTypeId));
+        }
+
+        [HttpPost]
+        [Route("api/ForwardMessage")]
+        [Authorize(Roles = "User")]
+        public IActionResult ForwardMessage(int MessageId, string UserId, string ReceiverId, string ForwardedFromUserId)
+        {
+            return Ok(_MessagingData.ForwardMessage(MessageId, UserId,ReceiverId,ForwardedFromUserId));
+        }
+
+        [HttpPost]
+        [Route("api/MakeMessageReaded")]
+        [Authorize(Roles = "User")]
+        public IActionResult MakeMessageReaded(string UserId, string ReceiverId)
+        {
+            return Ok(_MessagingData.MakeMessageReaded(UserId,ReceiverId));
+        }
+
+        [HttpPost]
+        [Route("api/PinMessage")]
+        [Authorize(Roles = "User")]
+        public IActionResult PinMessage(int MessageId)
+        {
+            return Ok(_MessagingData.PinMessage(MessageId));
+        }
     }
 }

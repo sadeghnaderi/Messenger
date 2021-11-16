@@ -49,5 +49,7 @@ namespace Messenger.Entities
         public int ReactionId { get; set; }
         public virtual Reaction Reaction { get; set; }
 
+        public bool IsDeleted { get; set; }
+
     }
 }
