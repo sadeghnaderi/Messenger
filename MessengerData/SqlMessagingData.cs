@@ -3,6 +3,7 @@ using Messenger.Entities;
 using Messenger.IdentityAuth;
 using Messenger.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -155,11 +156,24 @@ namespace Messenger.MessengerData
                 {
                     SenderId = UserId,
                     ReceiverId = ReceiverId,
+                    ReceiverTypeId = DbMessage.ReceiverTypeId,
                     Active = true
                 };
                 _MessengerDbContext.Conversation.Add(conversation);
             }
 
+            DbConversation = _MessengerDbContext.Conversation.Where(m => m.SenderId == ReceiverId && m.ReceiverId == UserId).SingleOrDefault();
+            if (DbConversation == null)
+            {
+                var conversation = new Conversation
+                {
+                    SenderId = ReceiverId,
+                    ReceiverId = UserId,
+                    ReceiverTypeId = DbMessage.ReceiverTypeId,
+                    Active = true
+                };
+                _MessengerDbContext.Conversation.Add(conversation);
+            }
 
             _MessengerDbContext.SaveChanges();
 
@@ -168,17 +182,49 @@ namespace Messenger.MessengerData
 
         public List<Bookmark> GetBookmarks(string UserId)
         {
-            throw new NotImplementedException();
+            List<Bookmark> DbBookmarks = _MessengerDbContext.Bookmark.Where(m => m.UserId == UserId).Include(m => m.Message).OrderByDescending(m => m.Id).ToList();
+
+            return DbBookmarks;
         }
 
         public List<ConversationModel> GetConversations(string UserId)
         {
-            throw new NotImplementedException();
+            List<Conversation> DBConversations = _MessengerDbContext.Conversation.Where(m => m.SenderId == UserId).OrderByDescending(m => m.Id).ToList();
+
+            List<ConversationModel> ConversationModels = new List<ConversationModel> { } ;
+
+            foreach(var Conversation in DBConversations)
+            {
+                var NewConverstaionModel = new ConversationModel { };
+
+                if (Conversation.ReceiverTypeId == 1)
+                {
+                    NewConverstaionModel = new ConversationModel
+                    {
+                        Name = _MessengerDbContext.User.Where(m => m.Id == Conversation.ReceiverId).SingleOrDefault().Name,
+                        ReceiverId = Conversation.ReceiverId,
+                        ReceiverTypeId = Conversation.ReceiverTypeId
+                    };
+                }   
+                else
+                {
+                    NewConverstaionModel = new ConversationModel
+                    {
+                        Name = _MessengerDbContext.Group.Where(m => m.Id == Conversation.ReceiverId).SingleOrDefault().Name,
+                        ReceiverId = Conversation.ReceiverId,
+                        ReceiverTypeId = Conversation.ReceiverTypeId
+                    };
+                }
+
+                ConversationModels.Add(NewConverstaionModel);
+            }
+
+            return ConversationModels;
         }
 
         public string MakeMessageReaded(string UserId, string ReceiverId)
         {
-            var DbMessage = _MessengerDbContext.Messages.Where(m => m.SenderId == ReceiverId && m.ReceiverId == UserId && m.IsUserSeen == false).ToList();
+            List<Message> DbMessage = _MessengerDbContext.Messages.Where(m => m.SenderId == ReceiverId && m.ReceiverId == UserId && m.IsUserSeen == false).ToList();
 
             if (DbMessage != null)
             {
@@ -234,11 +280,24 @@ namespace Messenger.MessengerData
                 {
                     SenderId = UserId,
                     ReceiverId = ReceiverId,
+                    ReceiverTypeId = ReceiverTypeId,
                     Active = true
                 };
                 _MessengerDbContext.Conversation.Add(conversation);
             }
 
+            DbConversation = _MessengerDbContext.Conversation.Where(m => m.SenderId == ReceiverId && m.ReceiverId == UserId).SingleOrDefault();
+            if (DbConversation == null)
+            {
+                var conversation = new Conversation
+                {
+                    SenderId = ReceiverId,
+                    ReceiverId = UserId,
+                    ReceiverTypeId = ReceiverTypeId,
+                    Active = true
+                };
+                _MessengerDbContext.Conversation.Add(conversation);
+            }
 
             _MessengerDbContext.SaveChanges();
 
@@ -249,12 +308,21 @@ namespace Messenger.MessengerData
 
         public string SetReaction(int MessageId, string Reaction)
         {
-            throw new NotImplementedException();
+            var DbMessage = _MessengerDbContext.Messages.Where(m => m.Id == MessageId).SingleOrDefault();
+
+            DbMessage.HasReaction = true;
+            DbMessage.Reaction = Reaction;
+
+            _MessengerDbContext.SaveChanges();
+
+            return "Reaction Saved Successfully";
         }
 
         public List<Message> ShowConversationMessages(string UserId, string ReceiverId, int ReceiverTypeId)
         {
-            throw new NotImplementedException();
+            List<Message> DbMessages = _MessengerDbContext.Messages.Where(m => m.SenderId == UserId && m.ReceiverId == ReceiverId || m.SenderId == ReceiverId && m.ReceiverId == UserId).Where(m => m.IsDeleted == false).Include(m => m.ContentType).Include(m => m.ReceiverType).ToList().OrderByDescending(m => m.DateTime).ToList();
+
+            return DbMessages;
         }
     }
 }

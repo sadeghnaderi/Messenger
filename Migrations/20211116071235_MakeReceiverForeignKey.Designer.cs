@@ -4,14 +4,16 @@ using Messenger.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Messenger.Migrations
 {
     [DbContext(typeof(MessengerDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211116071235_MakeReceiverForeignKey")]
+    partial class MakeReceiverForeignKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +43,22 @@ namespace Messenger.Migrations
                     b.ToTable("Bookmark");
                 });
 
+            modelBuilder.Entity("Messenger.Entities.Content", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("MessageContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contents");
+                });
+
             modelBuilder.Entity("Messenger.Entities.ContentType", b =>
                 {
                     b.Property<int>("Id")
@@ -68,17 +86,14 @@ namespace Messenger.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ReceiverId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReceiverTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SenderId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ReceiverTypeId");
+                    b.HasIndex("ReceiverId");
 
                     b.HasIndex("SenderId");
 
@@ -457,17 +472,15 @@ namespace Messenger.Migrations
 
             modelBuilder.Entity("Messenger.Entities.Conversation", b =>
                 {
-                    b.HasOne("Messenger.Entities.ReceiverType", "ReceiverType")
+                    b.HasOne("Messenger.Entities.User", "Receiver")
                         .WithMany()
-                        .HasForeignKey("ReceiverTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ReceiverId");
 
                     b.HasOne("Messenger.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("SenderId");
 
-                    b.Navigation("ReceiverType");
+                    b.Navigation("Receiver");
 
                     b.Navigation("User");
                 });

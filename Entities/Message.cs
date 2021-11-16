@@ -45,9 +45,7 @@ namespace Messenger.Entities
 
         public bool HasReaction { get; set; }
 
-        [ForeignKey("Reaction")]
-        public int ReactionId { get; set; }
-        public virtual Reaction Reaction { get; set; }
+        public string Reaction { get; set; }
 
         public bool IsDeleted { get; set; }
 

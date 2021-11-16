@@ -15,8 +15,11 @@ namespace Messenger.Entities
         [ForeignKey("User")]
         public string SenderId { get; set; }
         public virtual User User { get; set; }
-
         public string ReceiverId { get; set; }
+
+        [ForeignKey("ReceiverType")]
+        public int ReceiverTypeId { get; set; }
+        public virtual ReceiverType ReceiverType { get; set; }
 
         public bool Active { get; set; }
     }

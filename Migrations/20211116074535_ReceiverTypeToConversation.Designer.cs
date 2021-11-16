@@ -4,14 +4,16 @@ using Messenger.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Messenger.Migrations
 {
     [DbContext(typeof(MessengerDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211116074535_ReceiverTypeToConversation")]
+    partial class ReceiverTypeToConversation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,6 +41,22 @@ namespace Messenger.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Bookmark");
+                });
+
+            modelBuilder.Entity("Messenger.Entities.Content", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("MessageContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contents");
                 });
 
             modelBuilder.Entity("Messenger.Entities.ContentType", b =>

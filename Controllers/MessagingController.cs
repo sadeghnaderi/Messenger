@@ -115,5 +115,37 @@ namespace Messenger.Controllers
         {
             return Ok(_MessagingData.PinMessage(MessageId));
         }
+
+        [HttpPost]
+        [Route("api/SetReaction")]
+        [Authorize(Roles = "User")]
+        public IActionResult SetReaction(int MessageId, string Reaction)
+        {
+            return Ok(_MessagingData.SetReaction(MessageId,Reaction));
+        }
+
+        [HttpGet]
+        [Route("api/GetBookmarks")]
+        [Authorize(Roles = "User")]
+        public IActionResult GetBookmarks(string UserId)
+        {
+            return Ok(_MessagingData.GetBookmarks(UserId));
+        }
+
+        [HttpGet]
+        [Route("api/GetConversations")]
+        [Authorize(Roles = "User")]
+        public IActionResult GetConversations(string UserId)
+        {
+            return Ok(_MessagingData.GetConversations(UserId));
+        }
+
+        [HttpGet]
+        [Route("api/ShowConversationMessages")]
+        [Authorize(Roles = "User")]
+        public IActionResult ShowConversationMessages(string UserId, string ReceiverId, int ReceiverTypeId)
+        {
+            return Ok(_MessagingData.ShowConversationMessages(UserId,ReceiverId,ReceiverTypeId));
+        }
     }
 }
